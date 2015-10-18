@@ -29,18 +29,18 @@
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
         <ImageView
-            android:id="@+id/zoomIn"
+            android:id="@+id/filter"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:scaleType="centerInside"
-            android:src="@android:drawable/btn_plus" />
+            android:src="@android:drawable/btn_star_big_on" />
         <ImageView
-            android:id="@+id/zoomOut"
+            android:id="@+id/exit"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:scaleType="centerInside"
-            android:src="@android:drawable/btn_minus" />
+            android:src="@android:drawable/btn_dialog" />
     </LinearLayout>
 </com.github.fafaldo.fabtoolbar.widget.FABToolbarLayout>

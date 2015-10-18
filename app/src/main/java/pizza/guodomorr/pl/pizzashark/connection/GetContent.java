@@ -12,6 +12,7 @@ import pizza.guodomorr.pl.pizzashark.model.location.Delicious;
 import pizza.guodomorr.pl.pizzashark.model.restaurants.Restaurant;
 import retrofit.RestAdapter;
 import retrofit.client.Response;
+import rx.Observable;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -29,6 +30,8 @@ public class GetContent {
         return startMillis;
     }
 
+    private Observable<Response> queryObservable;
+
     public static final String TAG = GetContent.class.getSimpleName();
 
     public interface Receiver {
@@ -41,17 +44,39 @@ public class GetContent {
 
     private Receiver receiver;
 
-    public void create(Activity context, Receiver receiver) {
-        this.receiver = receiver;
-        start(context);
+    private PyszneAPI getApi() {
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(PyszneAPI.ENDPOINT).build();
+        return adapter.create(PyszneAPI.class);
     }
 
-    protected void start(final Activity context) {
-        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(PyszneAPI.ENDPOINT).build();
-        PyszneAPI api = adapter.create(PyszneAPI.class);
+    public void create(Receiver receiver) {
+        this.receiver = receiver;
+        queryObservable = getApi().getNearbyRestaurants(PyszneAPI.ZIP_CODE_TEST);
+    }
+
+    public void createAdvanced(Receiver receiver, String zipCode,
+                               Double minRating, Double maxRating,
+                               Integer minRatingCount, Integer maxRatingCount,
+                               Double minCart,
+                               Double maxCart,
+                               Double minDeliveryCost,
+                               Double maxDeliveryCost,
+                               Boolean discountNewCustomer,
+                               Boolean discountNormal,
+                               Boolean allStmaps) {
+        this.receiver = receiver;
+        queryObservable = getApi().getNearbyRestaurantsWithFilter2(
+                zipCode, minRating, maxRating, minRatingCount,
+                maxRatingCount, minCart, maxCart,
+                minDeliveryCost, maxDeliveryCost,
+                discountNewCustomer, discountNormal, allStmaps);
+
+    }
+
+    public void start(final Activity context) {
         Log.d(TAG, "onCreate ");
         startMillis = System.currentTimeMillis();
-        api.getNearbyRestaurants(PyszneAPI.ZIP_CODE_TEST)
+        queryObservable
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.newThread())
                 .doOnSubscribe(receiver.showLoader(true))
@@ -75,17 +100,21 @@ public class GetContent {
                         }
 
                         final String[] messages = string.split("Yd.predefined");
+                        if (messages.length > 12) {
 
-                        if (messages.length > 13)
-                            messages[13] = messages[13].replace("[\"location\"] = ", "").replace(";", "");
-                        if (messages.length > 15)
-                            messages[15] = messages[15].replace("[\"restaurants\"] = ", "").replace(";", "");
+                            messages[12] = messages[12].replace("[\"location\"] = ", "").replace(";", "");
+                        }
+                        if (messages.length > 14) {
 
+                            messages[14] = messages[14].replace("[\"restaurants\"] = ", "").replace(";", "");
+                        }
+                        for (int j = 0; j < messages.length; j++)
+                            Log.d(TAG, "messages[" + j + "] = " + messages[j]);
                         context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                receiver.onReceiveDelicious(UniversalDeserializer.getDelicious(messages[13]));
-                                receiver.onReceiveRestaurants(UniversalDeserializer.getRestaurants(messages[15]));
+                                receiver.onReceiveDelicious(UniversalDeserializer.getDelicious(messages[12]));
+                                receiver.onReceiveRestaurants(UniversalDeserializer.getRestaurants(messages[14]));
                             }
                         });
 

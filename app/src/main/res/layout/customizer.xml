@@ -1,0 +1,20 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/textViewStyle"
+        android:layout_centerHorizontal="true"
+        android:text="title" />
+
+    <FrameLayout
+        android:id="@+id/seekBarParent"
+        android:layout_width="match_parent"
+        android:layout_height="60sp"
+        android:layout_below="@+id/title"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

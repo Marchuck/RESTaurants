@@ -13,4 +13,11 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="seekBarStyle" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:padding">5sp</item>
+    </style>
+
 </resources>
