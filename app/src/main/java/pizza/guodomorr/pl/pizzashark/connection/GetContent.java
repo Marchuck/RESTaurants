@@ -77,10 +77,8 @@ public class GetContent {
         Log.d(TAG, "onCreate ");
         startMillis = System.currentTimeMillis();
         queryObservable
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(Schedulers.newThread())
-                .doOnSubscribe(receiver.showLoader(true))
-                .doOnCompleted(receiver.showLoader(false))
+                .subscribeOn(Schedulers.newThread()).observeOn(Schedulers.newThread())
+                .doOnSubscribe(receiver.showLoader(true)).doOnCompleted(receiver.showLoader(false))
                 .subscribe(new Action1<Response>() {
                     @Override
                     public void call(Response response) {

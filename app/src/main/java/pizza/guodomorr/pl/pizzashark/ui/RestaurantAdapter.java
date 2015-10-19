@@ -14,6 +14,7 @@ import pizza.guodomorr.pl.pizzashark.model.restaurants.Restaurant;
 
 /**
  * Created by lukasz on 18.10.15.
+ * Adapter which represents list of nearby restaurants
  */
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.VH> {
     private List<Restaurant> dataSet;

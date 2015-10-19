@@ -14,6 +14,10 @@ import android.widget.TextView;
 
 import pizza.guodomorr.pl.pizzashark.widgets.RangeSeekBar;
 
+/**
+ * @author Lukasz
+ * @since 19.10.2015
+ */
 public class SettingsActivity extends Activity {
     public static final String TAG = SettingsActivity.class.getSimpleName();
     /**

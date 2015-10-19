@@ -2,6 +2,8 @@ package pizza.guodomorr.pl.pizzashark;
 
 /**
  * Created by lukasz on 18.10.15.
+ * each bundle data passed from SettingsActivity to MainActivity
+ * has their own name
  */
 public class Constants {
     /**
